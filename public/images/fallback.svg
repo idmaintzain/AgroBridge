@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" role="img" aria-label="Produce">
+  <rect width="800" height="520" fill="#e7f3ea"/>
+  <circle cx="400" cy="250" r="90" fill="#1f7a3a"/>
+  <path d="M400 180c40 30 70 70 70 110a70 70 0 1 1-140 0c0-40 30-80 70-110z" fill="#edf7ef"/>
+</svg>
