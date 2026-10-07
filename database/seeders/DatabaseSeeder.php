@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Enums\ProduceUnit;
+use App\Models\LedgerEntry;
 use App\Models\Listing;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -113,6 +114,19 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $user->wallet->update(['available_kobo' => $kobo]);
+
+        if ($kobo > 0) {
+            LedgerEntry::query()->create([
+                'order_id' => null,
+                'user_id' => $user->id,
+                'account' => 'wallet',
+                'direction' => 'credit',
+                'type' => 'topup',
+                'amount_kobo' => $kobo,
+                'memo' => 'Opening demonstration balance',
+                'created_at' => now(),
+            ]);
+        }
 
         return $user;
     }

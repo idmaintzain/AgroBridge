@@ -6,6 +6,7 @@ use App\Http\Controllers\ListingController;
 use App\Http\Controllers\MarketController;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\WalletController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [MarketController::class, 'index'])->name('market');
@@ -29,6 +30,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/desk', [OfficeController::class, 'desk'])->name('desk');
     Route::get('/desk/listings', [OfficeController::class, 'listings'])->name('office.listings');
     Route::get('/desk/wallet', [OfficeController::class, 'wallet'])->name('office.wallet');
+    Route::post('/desk/wallet/fund', [WalletController::class, 'fund'])->name('wallet.fund');
+    Route::post('/desk/wallet/withdraw', [WalletController::class, 'withdraw'])->name('wallet.withdraw');
+    Route::post('/desk/wallet/transfer', [WalletController::class, 'transfer'])->name('wallet.transfer');
 
     Route::get('/listings/create', [ListingController::class, 'create'])->name('listings.create');
     Route::post('/listings', [ListingController::class, 'store'])->name('listings.store');

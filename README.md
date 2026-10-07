@@ -33,4 +33,6 @@ Open http://127.0.0.1:8000. The sign-in page has buttons for the defence account
 php artisan test
 ```
 
-The tests cover the money rules: a farmer cannot self-release, a buyer cannot overspend, an unpaid order returns reserved stock, and a fee change does not rewrite an order that was already placed.
+The tests cover the money rules: a farmer cannot self-release, a buyer cannot overspend, an unpaid order returns reserved stock, a fee change does not rewrite an order that was already placed, and demonstration top-up, withdrawal, and transfer keep Available balances and the ledger consistent.
+
+On **Wallet**, a farmer or buyer can top up demonstration naira (max ₦1,000,000.00 per top-up), withdraw from Available, or transfer Available funds to another AgroBridge email. Owed payouts cannot be spent until settlement moves them into Available. Administrators do not have a wallet office.

@@ -172,9 +172,9 @@
 <p>Though the above-mentioned institutions and persons have assisted in the process of this research work, I alone stand responsible for the errors, if any, found in the work.</p>
 
 <h1 class="front">Abstract</h1>
-<p class="abstract-body">Smallholder farmers in Nigeria often fail to convert harvest into reliable income because buyers fear paying for produce that never arrives and farmers fear releasing goods that will never be paid for. Market information alone, even when delivered by mobile phones, does not close that payment gap. This study designed and developed AgroBridge, a web platform that improves agricultural market access by listing produce by quantity and holding the buyer’s payment until collection is proved. A farmer publishes crop, unit, quantity, price, place, and a required photograph. A buyer may order part of the free quantity. Payment leaves a demonstration wallet into an application-held balance. The farmer cannot release that money by asserting delivery; release follows the buyer’s confirmation or a collection code visible only to the buyer, and only after a short dispute window closes without complaint. Fees and windows are snapshotted onto each order. The system was built with Laravel and MySQL and evaluated with automated tests of the money rules. All targeted tests passed. The prototype does not move licensed bank funds or report a farmer survey; those steps are recommended for further work.</p>
+<p class="abstract-body">Smallholder farmers in Nigeria often fail to convert harvest into reliable income because buyers fear paying for produce that never arrives and farmers fear releasing goods that will never be paid for. Market information alone, even when delivered by mobile phones, does not close that payment gap. This study designed and developed AgroBridge, a web platform that improves agricultural market access by listing produce by quantity and holding the buyer’s payment until collection is proved. A farmer publishes crop, unit, quantity, price, place, and a required photograph. A buyer may order part of the free quantity. Payment leaves a demonstration wallet into an application-held balance. The farmer cannot release that money by asserting delivery; release follows the buyer’s confirmation or a collection code visible only to the buyer, and only after a short dispute window closes without complaint. Fees and windows are snapshotted onto each order. Demonstration top-up, withdrawal, and transfer move available balances without bypassing escrow. The system was built with Laravel and MySQL and evaluated with automated tests of the money rules. All targeted tests passed. The prototype does not move licensed bank funds or report a farmer survey; those steps are recommended for further work.</p>
 <p class="single" style="margin-top:1em;"><strong>Keywords:</strong> agricultural market access; escrow; smallholder farmers; software engineering; web platform</p>
-<p class="single"><strong>Word Count:</strong> 198</p>
+<p class="single"><strong>Word Count:</strong> 218</p>
 
 <h1 class="front">Table of Contents</h1>
 
@@ -252,6 +252,7 @@
   <p class="toc-row"><span>Figure 3.1 High-level system context for AgroBridge</span><span class="dots"></span><span class="pg">40</span></p>
   <p class="toc-row"><span>Figure 3.2 Order lifecycle from reservation to payout or refund</span><span class="dots"></span><span class="pg">43</span></p>
   <p class="toc-row"><span>Figure 3.3 Escrow hold-and-release sequence (simplified)</span><span class="dots"></span><span class="pg">43</span></p>
+  <p class="toc-row"><span>Figure 3.4 Demonstration wallet movements (simplified)</span><span class="dots"></span><span class="pg">44</span></p>
   <p class="toc-row"><span>Figure 4.1 The public market: filters and produce cards</span><span class="dots"></span><span class="pg">48</span></p>
   <p class="toc-row"><span>Figure 4.2 A maize listing with fees and dispute window</span><span class="dots"></span><span class="pg">49</span></p>
   <p class="toc-row"><span>Figure 4.3 Defence sign-in with four account levels</span><span class="dots"></span><span class="pg">50</span></p>
@@ -259,6 +260,7 @@
   <p class="toc-row"><span>Figure 4.5 Listing form with required photograph upload</span><span class="dots"></span><span class="pg">52</span></p>
   <p class="toc-row"><span>Figure 4.6 Administrator desk and role-restricted menu</span><span class="dots"></span><span class="pg">53</span></p>
   <p class="toc-row"><span>Figure 4.7 Order with payment held and buyer collection code</span><span class="dots"></span><span class="pg">54</span></p>
+  <p class="toc-row"><span>Figure 4.8 Wallet office: balances, demonstration bank forms, and ledger</span><span class="dots"></span><span class="pg">55</span></p>
 </div>
 
 <h1 class="front">List of Acronyms</h1>
@@ -295,7 +297,7 @@
   <p class="toc-row"><span>Appendix B Defence Demonstration Accounts</span><span class="dots"></span><span class="pg">67</span></p>
   <p class="toc-row"><span>Appendix C Selected Seeded Listings</span><span class="dots"></span><span class="pg">68</span></p>
   <p class="toc-row"><span>Appendix D Detailed Use-Case Narratives</span><span class="dots"></span><span class="pg">68</span></p>
-  <p class="toc-row"><span>Appendix E Escrow Invariants Checklist</span><span class="dots"></span><span class="pg">70</span></p>
+  <p class="toc-row"><span>Appendix E Money Invariants Checklist</span><span class="dots"></span><span class="pg">70</span></p>
   <p class="toc-row"><span>Appendix F Requirements Traceability Matrix</span><span class="dots"></span><span class="pg">71</span></p>
   <p class="toc-row"><span>Appendix G Glossary of Domain and Technical Terms</span><span class="dots"></span><span class="pg">71</span></p>
   <p class="toc-row"><span>Appendix H Defence Script Outline</span><span class="dots"></span><span class="pg">72</span></p>
@@ -361,7 +363,7 @@
 
 <h2>1.6 Scope of the Study</h2>
 <p>The system is a web application. It has three kinds of account: a person who sells, a person who buys, and an administrator. One person may both sell and buy, but may not buy a listing that he or she created. After sign-in the public menu is replaced by a left-hand menu, and the items on that menu depend on the account. A buyer sees the market, purchases, and wallet. A farmer sees the farmer’s own listings, the form for a new listing, sales, and wallet. An administrator sees people, every order, disputes, and the fee settings, and does not see the buyer or farmer tools.</p>
-<p>The demonstration data publishes sixty-one listings across Nigerian states, including grains, tubers, vegetables, fruit, and a few animal products, each with a photograph. A farmer who lists new produce must upload a photograph, and may later replace that photograph or remove it so the standard picture for the crop is used again. Units are the kilogram, the bag, the basket, and the crate. Payment is a demonstration wallet seeded with balances. No card is charged and no bank transfer is made. The dispute window defaults to twenty-four hours because the produce is perishable, and that window is copied onto each order so a later edit does not reopen a sale.</p>
+<p>The demonstration data publishes sixty-one listings across Nigerian states, including grains, tubers, vegetables, fruit, and a few animal products, each with a photograph. A farmer who lists new produce must upload a photograph, and may later replace that photograph or remove it so the standard picture for the crop is used again. Units are the kilogram, the bag, the basket, and the crate. Payment is a demonstration wallet seeded with balances. A signed-in farmer or buyer may top up that wallet, withdraw from Available, or transfer Available funds to another AgroBridge account by email; those movements write ledger rows and never spend money that is still owed after a release. No card is charged and no real bank transfer is made. The dispute window defaults to twenty-four hours because the produce is perishable, and that window is copied onto each order so a later edit does not reopen a sale.</p>
 <p>Auctions, barter, identity-card verification, mobile-native applications, logistics optimisation, quality grading laboratories, and a live payment gateway are outside the build. A questionnaire of farmers was not administered, so Chapter Four does not report adoption statistics. The geographic framing is Nigerian smallholder trade, but the software rules are not limited to one crop or one state.</p>
 
 <h2>1.7 Limitations of the Study</h2>
@@ -378,13 +380,15 @@
 <p><strong>Dispute window.</strong> The period after handover during which the buyer may complain. If the window ends with no complaint, the held payment is released.</p>
 <p><strong>Fee snapshot.</strong> The fee percentages, fee floors, and window hours copied onto an order at creation time so that later settings changes do not rewrite that order.</p>
 <p><strong>Settlement.</strong> The scheduled or manually triggered process that cancels unpaid reservations, refunds uncollected paid orders, and releases or pays out held funds when dispute windows close.</p>
+<p><strong>Available balance.</strong> Demonstration naira on a wallet that may be spent on an order, withdrawn, or transferred. It is distinct from the owed (payable) balance that appears after escrow release and before payout.</p>
+<p><strong>Demonstration bank.</strong> In-application top-up, withdrawal, and transfer of wallet balances for laboratory defence. These operations substitute for a licensed bank and do not release escrowed produce payments.</p>
 
 
 <!-- VOLUME EXPANSION BLOCK -->
 <h3>1.1.4 Organisation of the Study</h3>
 <p>The remainder of the thesis is organised as follows. Chapter Two reviews conceptual foundations, methodological options, and related empirical and theoretical works, and then states the gaps that AgroBridge addresses. Chapter Three presents the research approach, requirements specification, system design, and evaluation methods. Chapter Four reports the implementation with figures from the running system and evaluates the artefact against the research questions. Chapter Five summarises results, offers recommendations, states contributions to knowledge, and suggests further studies. Endnotes appear at the end of each chapter. The bibliography, appendices, biodata, and university compliance certification follow Chapter Five.</p>
 
-<p>Readers who wish to operate the artefact during defence should begin with Appendix B for account credentials, then walk the market, a listing, a purchase, and the administrator desk in that order. Readers who wish to verify the money rules without a browser should begin with Table 4.1 and Appendix E.</p>
+<p>Readers who wish to operate the artefact during defence should begin with Appendix B for account credentials, then walk the market, a listing, the wallet (top-up, transfer, and withdraw), a purchase, and the administrator desk in that order. Readers who wish to verify the money rules without a browser should begin with Table 4.1 and Appendix E.</p>
 
 <p>The Nigerian framing deserves a further word. Smallholder conditions vary between the maize belts, the root-crop zones, the horticultural peri-urban belts, and the tree-crop regions. A single platform cannot encode every local measure, every local unit name, or every local bargaining custom. AgroBridge therefore uses a small set of units—kilogram, bag, basket, and crate—and free-text notes for local detail. States and local government areas provide geographic filters without pretending to be a complete gazetteer of every farm gate. Those simplifications are scope decisions, not claims that local specificity is unimportant.</p>
 
@@ -568,6 +572,7 @@
     <tr><td>FR-11</td><td>Settlement cancels unpaid reservations, refunds uncollected paid orders, and releases quiet dispute windows</td><td>Must</td></tr>
     <tr><td>FR-12</td><td>A user cannot buy his or her own listing</td><td>Must</td></tr>
     <tr><td>FR-13</td><td>Office menus are role-specific; administrators do not receive buying or selling tools</td><td>Should</td></tr>
+    <tr><td>FR-14</td><td>Farmers and buyers can top up, withdraw, and transfer demonstration wallet funds; transfers cannot target self or an administrator; only Available (not owed payouts) may be withdrawn or sent</td><td>Must</td></tr>
   </tbody>
   <caption>Table 3.1 Functional requirements summary</caption>
 </table>
@@ -578,8 +583,8 @@
   <thead><tr><th>ID</th><th>Requirement</th><th>Rationale</th></tr></thead>
   <tbody>
     <tr><td>NFR-01</td><td>Money stored as integer kobo</td><td>Avoid floating-point naira error in ledgers</td></tr>
-    <tr><td>NFR-02</td><td>Ledger entries append-only</td><td>Preserve audit trail of holds, releases, refunds</td></tr>
-    <tr><td>NFR-03</td><td>Critical escrow operations run in database transactions with row locks</td><td>Prevent double-spend and double-reservation</td></tr>
+    <tr><td>NFR-02</td><td>Ledger entries append-only</td><td>Preserve audit trail of holds, releases, refunds, top-ups, withdrawals, and transfers</td></tr>
+    <tr><td>NFR-03</td><td>Critical escrow and demonstration-wallet operations run in database transactions with row locks</td><td>Prevent double-spend, double-reservation, and overdrawn transfers</td></tr>
     <tr><td>NFR-04</td><td>Collection codes encrypted at rest</td><td>Reduce accidental exposure to farmers or administrators browsing raw tables</td></tr>
     <tr><td>NFR-05</td><td>Failed code guesses limited</td><td>Reduce brute-force discovery of codes</td></tr>
     <tr><td>NFR-06</td><td>Fee and window parameters snapshotted on orders</td><td>Protect agreed commercials from later admin edits</td></tr>
@@ -597,7 +602,7 @@
 
 <h2>3.3 Research/System Design</h2>
 <h3>3.3.1 Architecture Overview</h3>
-<p>AgroBridge follows a conventional Model–View–Controller structure on the Laravel framework. HTTP requests hit controllers; domain rules for money live in an Escrow service; persistent state lives in MySQL through an object-relational mapper; views are Blade templates rendered on the server. Figure 3.1 states the system context.</p>
+<p>AgroBridge follows a conventional Model–View–Controller structure on the Laravel framework. HTTP requests hit controllers; domain rules for produce payment live in an Escrow service; demonstration top-up, withdrawal, and transfer live in a separate DemoBank service so that laboratory wallet movements cannot masquerade as a seller-proof release; persistent state lives in MySQL through an object-relational mapper; views are Blade templates rendered on the server. Figure 3.1 states the system context.</p>
 <figure>
   <figcaption>Figure 3.1 High-level system context for AgroBridge</figcaption>
   <p class="center single" style="border:1px solid #333; padding:0.8em; margin:0.5em 0; text-align:left; line-height:1.55;">
@@ -607,7 +612,7 @@
     Demonstration wallet balances substitute for an external licensed payment provider
   </p>
 </figure>
-<p>Separating the Escrow service from controllers keeps the institutional rules in one place. Controllers authenticate, authorise, validate input, and call service methods. The service locks rows, checks invariants, posts ledger entries, and updates order status. That separation makes it easier to test the money rules without driving every path through HTML forms, although feature tests also exercise HTTP routes for defence realism.</p>
+<p>Separating the Escrow service from controllers keeps the institutional rules in one place. The DemoBank service is likewise isolated: it credits and debits Available balances and posts wallet ledger rows, but it never changes order status or escrow accounts. Controllers authenticate, authorise, validate input, and call service methods. Each service locks rows, checks invariants, and posts ledger entries. That separation makes it easier to test the money rules without driving every path through HTML forms, although feature tests also exercise HTTP routes for defence realism.</p>
 
 <h3>3.3.2 Proposed Interaction Flow</h3>
 <p>The proposed flow has four visible steps. First, the farmer publishes a listing from the left-hand menu: crop, unit (kilogram, bag, basket, or crate), quantity on hand, price per unit in naira, state, local government area, collection date, a short note, and a photograph. A new listing is refused if the photograph is missing. The market shows only listings that are marked visible and that still have quantity which is not reserved.</p>
@@ -650,7 +655,7 @@
     <tr><td>Wallet</td><td>Available balance and owed-but-not-paid-out balance in kobo</td></tr>
     <tr><td>Listing</td><td>Crop offer with quantity on hand, quantity reserved, price, place, photograph path, visibility</td></tr>
     <tr><td>Order</td><td>Partial purchase with snapshotted fees, windows, status, encrypted collection code, deadlines</td></tr>
-    <tr><td>LedgerEntry</td><td>Append-only money movement linked to order and wallet accounts</td></tr>
+    <tr><td>LedgerEntry</td><td>Append-only money movement linked to an order when the event is escrow, or to the wallet account for top-up, withdrawal, and transfer</td></tr>
     <tr><td>PlatformSetting</td><td>Current commercial parameters</td></tr>
     <tr><td>PlatformSettingRevision</td><td>History of parameter changes with mandatory reason</td></tr>
   </tbody>
@@ -680,6 +685,19 @@
 </figure>
 <p>The decisive negative requirement is encoded at the authorisation boundary: the confirm-collection action is available to the buyer on that order, not to the farmer. The farmer’s alternative path requires knowledge of the buyer’s code. Guessing is rate-limited. There is no third path labelled “mark delivered” for the farmer alone.</p>
 
+<h3>3.3.10 Demonstration Wallet Operations</h3>
+<p>Seeded balances are enough for a first defence purchase, but a laboratory still needs a way to add, remove, and send demonstration naira without a licensed bank. Figure 3.4 states those operations. They act only on Available kobo. The owed (payable) balance that appears after escrow release cannot be withdrawn or transferred until settlement moves it into Available. Each top-up is capped at ₦1,000,000.00 so a demonstration cannot be inflated without bound. A transfer looks up the recipient by email, refuses the sender’s own address and any administrator account, and writes two ledger rows that name the other party.</p>
+<figure>
+  <figcaption>Figure 3.4 Demonstration wallet movements (simplified)</figcaption>
+  <p class="center single" style="border:1px solid #333; padding:0.8em; margin:0.5em 0; text-align:left; line-height:1.55;">
+    Top up → credit Available; ledger type topup<br>
+    Withdraw → debit Available if sufficient; ledger type withdraw<br>
+    Transfer → debit sender Available; credit recipient Available; two ledger rows type transfer<br>
+    Order pay still uses Escrow only: Available → held escrow (not DemoBank)
+  </p>
+</figure>
+<p>This design keeps the thesis honest about two kinds of money movement. Produce payment is institutional escrow. Top-up, withdrawal, and transfer are laboratory substitutes for a bank, recorded so examiners can see balances change without implying that AgroBridge is a payment-service provider.</p>
+
 <h3>3.3.6 Interface and Role Design</h3>
 <p>After authentication, navigation is provided by a left-hand office menu composed according to role flags. This reduces accidental privilege confusion during defence and reflects separation of duties. An administrator who could also buy and sell in the same interface might create conflicts of interest in a production setting; the prototype therefore keeps the administrator desk free of market and wallet tools even if a future policy were to allow dual roles under supervision.</p>
 <p>Public pages emphasise produce photographs, availability, price, place, and collection date. Listing detail pages show the fee a buyer would pay and the sum a farmer would keep at current settings, while the order itself stores the snapshot used for settlement. That dual presentation serves discovery (current settings) and fairness (historical snapshot) without conflating them.</p>
@@ -701,8 +719,8 @@
 </table>
 <p>Evaluation methods in detail were:</p>
 <ol class="plain">
-  <li>Automated feature tests for self-release refusal, wallet overspend refusal, unpaid stock return, fee snapshotting, own-listing purchase refusal, and completed payout after a backdated dispute window.</li>
-  <li>Manual demonstration of the market, listing form, role menus, held-order page, and administrator desk, recorded as figures in Chapter Four.</li>
+  <li>Automated feature tests for self-release refusal, wallet overspend refusal, unpaid stock return, fee snapshotting, own-listing purchase refusal, completed payout after a backdated dispute window, demonstration top-up, refused overdraft on withdraw and transfer, successful transfer with two ledger rows, and refusal of transfer to self or to an administrator.</li>
+  <li>Manual demonstration of the market, listing form, role menus, wallet page, held-order page, and administrator desk, recorded as figures in Chapter Four.</li>
   <li>Comparison of observed behaviour with the research questions and with the institutional-escrow constraint drawn from related works.</li>
 </ol>
 <p>The Technology Acceptance Model was used only as the design lens described in Chapter Two, not as a scoring instrument. No survey instrument was administered.</p>
@@ -713,7 +731,7 @@
 <p>These measures do not replace a professional penetration test before public deployment. They do show that integrity was considered alongside feature completeness.</p>
 
 <h3>3.3.8 Traceability from Objectives to Design</h3>
-<p>Objective 1 (examine constraints) maps to the literature-backed problem frame and to the baseline practice statement. Objective 2 (specify quantity listing and partial purchase) maps to the listing and order entities and to FR-02 through FR-05. Objective 3 (implement seller-proof hold-and-release with snapshots) maps to the Escrow service, FR-06 through FR-11, and NFR-01 through NFR-06. Objective 4 (evaluate consistency) maps to the test methods in Section 3.4 and the results in Chapter Four. This traceability keeps the thesis from accumulating unrelated features.</p>
+<p>Objective 1 (examine constraints) maps to the literature-backed problem frame and to the baseline practice statement. Objective 2 (specify quantity listing and partial purchase) maps to the listing and order entities and to FR-02 through FR-05. Objective 3 (implement seller-proof hold-and-release with snapshots) maps to the Escrow service, FR-06 through FR-11, and NFR-01 through NFR-06. Demonstration wallet operations (FR-14) support laboratory evaluation of those money rules without a live bank; they are not a substitute for seller-proof release. Objective 4 (evaluate consistency) maps to the test methods in Section 3.4 and the results in Chapter Four. This traceability keeps the thesis from accumulating unrelated features.</p>
 <h3>3.4.1 Tools, Environment and Repeatability</h3>
 <p>The development environment used PHP compatible with the Laravel application version in the repository, Composer for dependencies, and MySQL for persistent demonstration data. Automated tests use the framework’s testing facilities against a disposable database so that evaluation does not corrupt the demonstration seed. Screenshots in Chapter Four were captured from the running application with demonstration data loaded. Repeatability for examiners therefore requires the repository, the stated PHP tooling, and the seed command documented in the application README, not a live cloud deployment.</p>
 <p>Version control was used during development to preserve increments of the escrow logic. The thesis does not reproduce commit histories; the artefact and this document are the assessed outputs.</p>
@@ -730,8 +748,8 @@
 
 <h2>4.1 Implementation</h2>
 <h3>4.1.1 Technology Stack and Project Structure</h3>
-<p>The implemented system is a Laravel web application with MySQL persistence. Domain logic for money is concentrated in an Escrow service. Settings and fee quotes are concentrated in a Settings service. Controllers thin out HTTP concerns: authentication, authorisation, validation, and redirection. Blade views render the public market and the authenticated office. A settlement command runs on a schedule and can be triggered from the administrator desk during demonstrations.</p>
-<p>Demonstration seeders create four defence accounts, wallets with starting balances, platform settings, and sixty-one listings with photographs spanning grains, tubers, vegetables, fruit, and selected animal products. The seed data is not a claim about national production statistics; it is a defence dataset large enough to exercise filters, pagination, and partial quantity purchases.</p>
+<p>The implemented system is a Laravel web application with MySQL persistence. Domain logic for produce payment is concentrated in an Escrow service. Demonstration top-up, withdrawal, and transfer are concentrated in a DemoBank service. Settings and fee quotes are concentrated in a Settings service. Controllers thin out HTTP concerns: authentication, authorisation, validation, and redirection. Blade views render the public market and the authenticated office. A settlement command runs on a schedule and can be triggered from the administrator desk during demonstrations.</p>
+<p>Demonstration seeders create four defence accounts, wallets with starting balances and matching opening ledger credits where the balance is greater than zero, platform settings, and sixty-one listings with photographs spanning grains, tubers, vegetables, fruit, and selected animal products. The seed data is not a claim about national production statistics; it is a defence dataset large enough to exercise filters, pagination, partial quantity purchases, and wallet movements.</p>
 
 <h3>4.1.2 Public Market and Listing Detail</h3>
 <p>The implemented market, before anyone has signed in, is shown in Figure 4.1. The top of the page carries the project line, the statement that payment stays with AgroBridge until handover is real, and filters for crop and state. Beneath that, Available Produce is a grid of cards. Each card states the price per unit, the quantity still available, the place, and the collection date. Only listings that remain active and that still have free quantity appear.</p>
@@ -778,22 +796,36 @@
   <figcaption>Figure 4.7 Order with payment held and buyer collection code</figcaption>
 </figure>
 
+<h3>4.1.13 Demonstration Wallet Page</h3>
+<p>Figure 4.8 is the wallet office of a farmer or buyer. The page states Available and Owed balances, warns that the naira is demonstration money, and offers three forms: top up, withdraw, and transfer to another AgroBridge email. An administrator is refused this page. Ledger rows for wallet events use the account name <em>wallet</em> and sit beside escrow rows that still use <em>buyer_wallet</em>, <em>escrow</em>, <em>farmer_payable</em>, and <em>farmer_wallet</em>. Produce payment continues to call Escrow only; DemoBank never changes order status.</p>
+<figure>
+  <figcaption>Figure 4.8 Wallet office: balances, demonstration bank forms, and ledger</figcaption>
+  <p class="center single" style="border:1px solid #333; padding:0.8em; margin:0.5em 0; text-align:left; line-height:1.55;">
+    Header: Available (naira) · Owed, not yet paid out (naira)<br>
+    Form 1 Top up — amount in naira — Add funds<br>
+    Form 2 Withdraw — amount in naira — Withdraw (Available only)<br>
+    Form 3 Transfer — recipient email and amount — Send<br>
+    Ledger: when, account, movement, amount, note (append-only)
+  </p>
+</figure>
+<p>On a laboratory walkthrough signed in as the seeded buyer, a top-up of ₦100.00 raised Available from ₦500,000.00 to ₦500,100.00; a transfer of ₦50.00 to farmer@agrobridge.test reduced the buyer to ₦500,050.00 and credited the farmer; a withdrawal of ₦20.00 left the buyer at ₦500,030.00. The farmer’s wallet then showed ₦20,050.00 with a credit memo naming the buyer. Those figures are demonstration balances, not licensed funds.</p>
+
 <h3>4.1.7 Escrow Service Behaviour</h3>
 <p>Technically, the hold-and-release logic lives in an Escrow service that places, pays, confirms, accepts a collection code, opens disputes, and settles within database transactions. Quantity on hand and quantity reserved are updated under row locks. Ledger entries are append-only. On place, the service rejects self-purchase, inactive listings, and quantities outside the free range, then snapshots fee and window fields onto the order. On pay, it rejects insufficient wallet balance without consuming the reservation into a sold state. On confirm or successful code entry, it records handover and starts the dispute deadline from the snapshotted hours. Settlement walks eligible orders and performs cancel, refund, release, or payout according to status and timestamps.</p>
 <p>Failed collection-code attempts increment a counter. After five failures the farmer path is blocked for guessing, while the buyer can still confirm collection on his own order. The code alphabet omits easily confused characters. The plaintext code is not stored; an encrypted payload is stored and decrypted only for the buyer’s authorised view.</p>
 
 <h3>4.1.8 Module Summary</h3>
-<p>In summary, the implementation covers: public market discovery; authenticated role offices; listing CRUD with photograph rules; order placement with reservation; wallet payment into escrow; buyer-proof handover; dispute and admin resolution; settings with revision history; and scheduled settlement. These modules collectively instantiate the requirements in Tables 3.1 and 3.2.</p>
+<p>In summary, the implementation covers: public market discovery; authenticated role offices; listing CRUD with photograph rules; order placement with reservation; wallet payment into escrow; demonstration top-up, withdrawal, and transfer; buyer-proof handover; dispute and admin resolution; settings with revision history; and scheduled settlement. These modules collectively instantiate the requirements in Tables 3.1 and 3.2.</p>
 
 <h3>4.1.11 Error Handling and User Feedback</h3>
-<p>When escrow operations fail, the service throws domain exceptions that controllers convert into user-visible messages without exposing stack traces. Examples include insufficient wallet funds, inactive listings, invalid quantities, self-purchase attempts, and unauthorised confirmation attempts. Validation errors on listing forms identify missing photographs and invalid numeric fields. Administrator forms refuse empty reasons and empty dispute notes. This feedback style supports the ease-of-use lens: the system says what went wrong in domain language rather than failing silently or with opaque codes.</p>
+<p>When escrow or demonstration-wallet operations fail, the service throws domain exceptions that controllers convert into user-visible messages without exposing stack traces. Examples include insufficient wallet funds, inactive listings, invalid quantities, self-purchase attempts, unauthorised confirmation attempts, transfer to self, transfer to an administrator, and a top-up above the demonstration cap of ₦1,000,000.00. Validation errors on listing forms identify missing photographs and invalid numeric fields. Administrator forms refuse empty reasons and empty dispute notes. This feedback style supports the ease-of-use lens: the system says what went wrong in domain language rather than failing silently or with opaque codes.</p>
 
 <h3>4.1.12 Data Seeding Strategy</h3>
-<p>Seeding serves two purposes: examiner convenience and realistic market density. Four accounts demonstrate role differences immediately. Sixty-one listings prevent the market from looking empty and allow filter exercises across crops and states. Wallet balances are large enough to complete several demonstration purchases without constant reseeding, yet finite enough that an overspend test remains meaningful when balances are lowered in automated tests. Settings seed the default fees and windows used in Tables 3.3 and 3.4.</p>
+<p>Seeding serves two purposes: examiner convenience and realistic market density. Four accounts demonstrate role differences immediately. Sixty-one listings prevent the market from looking empty and allow filter exercises across crops and states. Wallet balances are large enough to complete several demonstration purchases without constant reseeding, yet finite enough that an overspend test remains meaningful when balances are lowered in automated tests. Where a seeded available balance is greater than zero, an opening ledger credit records that demonstration starting point. Settings seed the default fees and windows used in Tables 3.3 and 3.4.</p>
 
 <h2>4.2 Evaluation</h2>
 <h3>4.2.1 Automated Tests of Money Rules</h3>
-<p>Table 4.1 reports the automated tests that answer the third research question. The suite was run with PHPUnit against the project’s migrations. The tests that guard the money rules passed. A further test in the same class checks that a farmer who is also allowed to buy still cannot purchase his or her own listing, and that a completed path, after the dispute window is set in the past, pays the farmer the snapshotted sum and no more.</p>
+<p>Table 4.1 reports the automated tests that answer the third research question. The suite was run with PHPUnit against the project’s migrations. The tests that guard the money rules passed. A further test in the escrow class checks that a farmer who is also allowed to buy still cannot purchase his or her own listing, and that a completed path, after the dispute window is set in the past, pays the farmer the snapshotted sum and no more. A second test class covers demonstration-bank operations and checks that a funded buyer can still pay an order while escrow still refuses overspend.</p>
 <table>
   <thead><tr><th>Rule</th><th>What the test does</th><th>Result required</th></tr></thead>
   <tbody>
@@ -801,6 +833,10 @@
     <tr><td>The buyer cannot overspend</td><td>The wallet is set below the order total and payment is attempted</td><td>Payment is refused. The wallet is unchanged. The order is still awaiting payment. The quantity stays reserved, not sold</td></tr>
     <tr><td>Unpaid orders return stock</td><td>Ten units are reserved and the clock is moved past the payment deadline</td><td>The order is cancelled. Reserved quantity returns to zero. Quantity on hand is unchanged</td></tr>
     <tr><td>Fees are snapshotted</td><td>An order is placed at 2 percent. An administrator then sets the buyer fee to 20 percent, with a written reason. A second order is placed</td><td>The first order still carries the fee from 2 percent. The second order carries the fee from 20 percent</td></tr>
+    <tr><td>Top-up credits Available</td><td>A buyer posts a demonstration top-up of ₦2,500.00</td><td>Available rises by 250,000 kobo. An append-only credit of type topup is stored</td></tr>
+    <tr><td>Withdraw and transfer cannot overdraw</td><td>Available is set to ₦100.00 and ₦200.00 is withdrawn or sent</td><td>Both posts are refused. Balances and ledger counts are unchanged</td></tr>
+    <tr><td>Transfer posts two ledger rows</td><td>₦150.00 is sent from one non-admin account to another</td><td>Sender Available falls; recipient Available rises; debit and credit memos name the other party</td></tr>
+    <tr><td>Transfer refuses self and admin</td><td>The same amount is sent to the sender’s own email and to an administrator</td><td>Both posts are refused. Available is unchanged</td></tr>
   </tbody>
   <caption>Table 4.1 Money-rule tests and what each one asserts</caption>
 </table>
@@ -817,13 +853,14 @@
     <tr><td>Admin dispute refund</td><td>Buyer disputes; admin refunds with note</td><td>Buyer wallet restored including fee; note visible; stock handling follows refund path</td></tr>
     <tr><td>Role menu check</td><td>Sign in as admin versus ada</td><td>Admin lacks market/wallet tools; ada sees combined farmer-buyer menu</td></tr>
     <tr><td>Listing photograph required</td><td>Submit create form without file</td><td>Validation refuses publication</td></tr>
+    <tr><td>Demonstration wallet movements</td><td>Buyer tops up ₦100.00, transfers ₦50.00 to the farmer, withdraws ₦20.00</td><td>Buyer Available ₦500,030.00; farmer Available ₦20,050.00; ledger shows top-up, transfer, and withdrawal</td></tr>
   </tbody>
   <caption>Table 4.2 Defence walkthrough scenarios and observed outcomes</caption>
 </table>
 
 <h3>4.2.3 Discussion against the Research Questions</h3>
 <p>Against the first research question, Chapter Two’s sources support a careful answer. Price information is improved by cheaper communication, as Jensen and Aker measured, but the measured gains are about prices across markets, not about a farmer being paid by a stranger.<sup><a href="#c4n1">1</a></sup><sup><a href="#c4n2">2</a></sup> Nakasone, Torero, and Minten caution that the gain for an individual producer is mixed.<sup><a href="#c4n3">3</a></sup> Affognon and colleagues show that delay and poor coordination in the supply chain waste value, especially where the crop does not keep.<sup><a href="#c4n4">4</a></sup> The payment failure is the part a phone call does not close. AgroBridge is aimed at that remainder. These results do not prove that Nigerian prices will converge, and the report does not borrow percentages from Kerala or Niger and paste them onto this prototype.</p>
-<p>Against the second research question, the implementation answers in the way Chapter Three specified. Part of a listing can be bought. The listing page and the order store the fee at the moment of the order. Handover is the buyer’s confirmation or the buyer’s code. The dispute window that the maize listing displays is twenty-four hours. Release is a later step, performed by settlement or, if there is a dispute, by an administrator who must write a note. The farmer’s inability to self-release is not a policy sentence on a screen; the test in Table 4.1 requests the only confirm route and is refused. Figures 4.1 to 4.7 show the artefact as examiners can operate it.</p>
+<p>Against the second research question, the implementation answers in the way Chapter Three specified. Part of a listing can be bought. The listing page and the order store the fee at the moment of the order. Handover is the buyer’s confirmation or the buyer’s code. The dispute window that the maize listing displays is twenty-four hours. Release is a later step, performed by settlement or, if there is a dispute, by an administrator who must write a note. The farmer’s inability to self-release is not a policy sentence on a screen; the test in Table 4.1 requests the only confirm route and is refused. Demonstration top-up, withdrawal, and transfer change Available balances and write ledger rows without offering the farmer a path to release held produce payments. Figures 4.1 to 4.8 show the artefact as examiners can operate it.</p>
 <p>Against the third research question, Tables 4.1 and 4.2 are the answer that can be given honestly. Under the cases that were programmed and walked through, stock, wallets, and fees stay consistent with the design. That is a statement about the code and the demonstration environment, made on the evaluation runs. It is not a statement about every future edit, and it is not a statement about a farmer in a field. The evaluation therefore supports the claim that the software rules required for safer market access can be enforced, within the limits stated in Section 1.7.</p>
 
 <h3>4.2.4 Alignment with Related Literature</h3>
@@ -841,7 +878,7 @@
 <p>Listing photographs are required on create and optional to replace on edit. Seeded listings ship with crop photographs so the market is visually dense on first boot. When a farmer removes a custom photograph, the system falls back to a standard image for that crop name where available. This behaviour keeps the market from showing broken-image gaps while still allowing farmers to show the specific heap they are selling. Image handling is part of market access in a practical sense: buyers scrolling a grid decide which detail page to open partly by sight.</p>
 
 <h3>4.2.6 Summary of Evaluation Verdict</h3>
-<p>Taken together, the automated tests, walkthroughs, and literature-aligned discussion support a qualified verdict. AgroBridge implements the stated institutional rule and preserves stock, wallet, and fee consistency under the exercised cases. It does not demonstrate field adoption. It does not demonstrate licensed fund custody. Those absences are limitations, not silent failures of the objectives as written.</p>
+<p>Taken together, the automated tests, walkthroughs, and literature-aligned discussion support a qualified verdict. AgroBridge implements the stated institutional rule and preserves stock, wallet, and fee consistency under the exercised cases, including demonstration top-up, transfer, and withdrawal of Available balances. It does not demonstrate field adoption. It does not demonstrate licensed fund custody. Those absences are limitations, not silent failures of the objectives as written.</p>
 <h3>4.2.7 Practical Implications for Stakeholders</h3>
 <p>For farmers, the practical implication of a passing evaluation is modest but concrete: a listing can be published with quantity and photograph, and payment cannot be seized by a false self-confirmation of delivery. For buyers, funds can be committed with a visible hold and a path to refund when collection fails. For administrators, disputes leave a written trail. For educators, the project offers a worked example of encoding an institutional rule as software invariants. For policymakers or partners considering a pilot, the implication is a checklist: licensed custody, field acceptance study, and preservation of seller-proof release must accompany any scaling narrative.</p>
 
@@ -858,8 +895,8 @@
 <h1 class="chapter">Chapter Five<br>Conclusion</h1>
 
 <h2>5.1 Summary of Results</h2>
-<p>This project designed and developed AgroBridge for the Postgraduate Diploma in Software Engineering at Lead City University. The platform lets a smallholder list farm produce by quantity and lets a buyer purchase part of that quantity. The buyer’s payment is held by the platform. It is released to the farmer only after handover is proved by the buyer’s confirmation or by a collection code only the buyer can see, and only after a dispute window, set by default at twenty-four hours, has closed. The farmer has no control that pays him because he asserts delivery. Fees and windows are copied onto the order so that an administrator’s later change is not retroactive.</p>
-<p>In relation to the research questions, the study identified information-and-payment failures that limit market access, drawing on empirical work that shows ICT can improve price discovery without solving settlement between strangers. It specified and built a quantity-based hold-and-release platform with role-separated offices, photograph-backed listings, an append-only ledger, and scheduled settlement. It showed consistency of stock, wallets, and fees under automated tests and defence walkthroughs. The rules were implemented in Laravel on MySQL. The tests that guard the money passed.</p>
+<p>This project designed and developed AgroBridge for the Postgraduate Diploma in Software Engineering at Lead City University. The platform lets a smallholder list farm produce by quantity and lets a buyer purchase part of that quantity. The buyer’s payment is held by the platform. It is released to the farmer only after handover is proved by the buyer’s confirmation or by a collection code only the buyer can see, and only after a dispute window, set by default at twenty-four hours, has closed. The farmer has no control that pays him because he asserts delivery. Fees and windows are copied onto the order so that an administrator’s later change is not retroactive. Demonstration top-up, withdrawal, and transfer let examiners move Available balances in the laboratory without a licensed bank and without bypassing that hold.</p>
+<p>In relation to the research questions, the study identified information-and-payment failures that limit market access, drawing on empirical work that shows ICT can improve price discovery without solving settlement between strangers. It specified and built a quantity-based hold-and-release platform with role-separated offices, photograph-backed listings, an append-only ledger, demonstration wallet operations, and scheduled settlement. It showed consistency of stock, wallets, and fees under automated tests and defence walkthroughs. The rules were implemented in Laravel on MySQL. The tests that guard the money passed.</p>
 <p>The result is therefore a complete software-engineering answer to a narrowly stated problem: not “will farmers adopt?”, but “can the institutional rule be built so that it cannot be casually switched off by the seller?” On that narrower question, the evidence of Chapters Three and Four is affirmative within the stated limitations.</p>
 
 <h3>5.1.1 Mapping Objectives to Outcomes</h3>
@@ -878,7 +915,7 @@
 
 <h2>5.3 Contribution to Knowledge</h2>
 <p>The theoretical contribution is a clear application of institution-based trust (escrow) to divisible, perishable farm produce, with the engineering constraint that the seller cannot certify delivery alone. The study connects empirical ICT-for-agriculture findings about information with a software artefact that addresses the settlement gap those findings leave open.</p>
-<p>The practical contribution is a tested implementation of that constraint: partial quantity, snapshot fees, a collection code hidden from the seller, a perishable-crop dispute window, role-restricted office menus, required listing photographs, settings revision history, and an administrator who can resolve a dispute only in writing. The methodological contribution for postgraduate software engineering is an explicit refusal to invent survey results, paired with automated tests as the primary evaluation instrument for money invariants.</p>
+<p>The practical contribution is a tested implementation of that constraint: partial quantity, snapshot fees, a collection code hidden from the seller, a perishable-crop dispute window, role-restricted office menus, required listing photographs, settings revision history, an administrator who can resolve a dispute only in writing, and a demonstration bank that records top-up, withdrawal, and transfer without offering the seller a self-release path. The methodological contribution for postgraduate software engineering is an explicit refusal to invent survey results, paired with automated tests as the primary evaluation instrument for money invariants.</p>
 <p>The source code is the AgroBridge application. This document is the scholarly account of that application for the Department of Computer Science, Lead City University.</p>
 
 <h2>5.4 Suggestions for Further Studies</h2>
@@ -940,16 +977,16 @@
 
 <h2>Appendix B: Defence Demonstration Accounts</h2>
 <table>
-  <thead><tr><th>Email</th><th>Role</th><th>Password</th></tr></thead>
+  <thead><tr><th>Email</th><th>Role</th><th>Seeded Available</th><th>Password</th></tr></thead>
   <tbody>
-    <tr><td>farmer@agrobridge.test</td><td>Farmer (sells)</td><td>password</td></tr>
-    <tr><td>buyer@agrobridge.test</td><td>Buyer (buys)</td><td>password</td></tr>
-    <tr><td>ada@agrobridge.test</td><td>Farmer and buyer</td><td>password</td></tr>
-    <tr><td>admin@agrobridge.test</td><td>Administrator</td><td>password</td></tr>
+    <tr><td>farmer@agrobridge.test</td><td>Farmer (sells)</td><td>₦20,000.00</td><td>password</td></tr>
+    <tr><td>buyer@agrobridge.test</td><td>Buyer (buys)</td><td>₦500,000.00</td><td>password</td></tr>
+    <tr><td>ada@agrobridge.test</td><td>Farmer and buyer</td><td>₦150,000.00</td><td>password</td></tr>
+    <tr><td>admin@agrobridge.test</td><td>Administrator (no wallet office)</td><td>₦0.00</td><td>password</td></tr>
   </tbody>
   <caption>Table B.1 Demonstration accounts for defence</caption>
 </table>
-<p>These accounts are for laboratory demonstration only. The password must be changed before any deployment that faces the public internet.</p>
+<p>These accounts are for laboratory demonstration only. The password must be changed before any deployment that faces the public internet. Farmers and buyers may top up, withdraw, or transfer Available funds on the Wallet page. An administrator cannot use those forms. Transfers must use another AgroBridge email from this table (or a registered non-admin account) and cannot target the sender.</p>
 
 <h2>Appendix C: Selected Seeded Listings</h2>
 <p>The demonstration database publishes sixty-one listings. Table C.1 samples representative entries to show crop diversity, units, and geographic spread used in defence.</p>
@@ -980,8 +1017,10 @@
 <p><strong>Primary actor:</strong> Administrator. <strong>Precondition:</strong> Order disputed. <strong>Main success scenario:</strong> Administrator opens Disputes; chooses release or refund; enters mandatory note; system moves funds accordingly and exposes note to both parties. <strong>Extensions:</strong> Empty note → refused.</p>
 <h3>D.5 Use Case: Administrator Changes Fees</h3>
 <p><strong>Primary actor:</strong> Administrator. <strong>Precondition:</strong> Authenticated admin. <strong>Main success scenario:</strong> Admin edits fees/windows with reason; revision stored; new orders use new parameters; old orders retain snapshots. <strong>Extensions:</strong> Missing reason → refused.</p>
+<h3>D.6 Use Case: Demonstration Wallet Top-up, Transfer, and Withdrawal</h3>
+<p><strong>Primary actor:</strong> Farmer or buyer. <strong>Precondition:</strong> Actor is authenticated and is not an administrator. <strong>Main success scenario:</strong> Actor opens Wallet; tops up an amount in naira not greater than ₦1,000,000.00; Available and a ledger credit of type topup increase; actor transfers a smaller amount to another non-admin AgroBridge email; sender Available falls, recipient Available rises, two transfer ledger rows are stored; actor withdraws from remaining Available; a withdraw debit is stored. <strong>Extensions:</strong> Amount above Available → refused, balances unchanged. Transfer to self or to an administrator → refused. Administrator requests Wallet → forbidden.</p>
 
-<h2>Appendix E: Escrow Invariants Checklist</h2>
+<h2>Appendix E: Money Invariants Checklist</h2>
 <ul class="plain">
   <li>Available quantity equals quantity on hand minus quantity reserved for all listings after every successful escrow operation.</li>
   <li>No order may be paid if buyer wallet available balance is below order total.</li>
@@ -995,6 +1034,11 @@
   <li>Users cannot purchase listings they own.</li>
   <li>Administrator dispute actions require a non-empty note.</li>
   <li>Settings changes require a non-empty reason and create a revision row.</li>
+  <li>Demonstration top-up, withdrawal, and transfer never reduce Available below zero.</li>
+  <li>Owed (payable) balances cannot be withdrawn or transferred until payout moves them into Available.</li>
+  <li>A transfer to the sender’s own email or to an administrator is refused and leaves both wallets unchanged.</li>
+  <li>Each demonstration top-up is at most ₦1,000,000.00.</li>
+  <li>DemoBank operations do not change order status or escrow ledger accounts.</li>
 </ul>
 <p>The automated tests in Chapter Four cover the highest-risk subset of this checklist. Remaining items were checked during implementation walkthroughs and remain candidates for additional automated coverage in further work.</p>
 
@@ -1012,14 +1056,17 @@
     <tr><td>FR-10 Snapshot settings</td><td>Order fee columns + revisions</td><td>Fee snapshot test</td></tr>
     <tr><td>FR-11 Settlement</td><td>SettleOrders command</td><td>Unpaid stock return test; quiet release scenario</td></tr>
     <tr><td>NFR-01 Integer kobo</td><td>Money storage conventions</td><td>Code inspection; fee tables</td></tr>
-    <tr><td>NFR-03 Transactions/locks</td><td>DB::transaction in Escrow</td><td>Automated suite stability</td></tr>
+    <tr><td>NFR-03 Transactions/locks</td><td>DB::transaction in Escrow and DemoBank</td><td>Automated suite stability</td></tr>
+    <tr><td>FR-14 Demonstration bank</td><td>DemoBank + wallet office forms</td><td>Table 4.1 top-up/transfer tests; Figure 4.8; Table 4.2 wallet walkthrough</td></tr>
   </tbody>
   <caption>Table F.1 Requirements traceability matrix (selected)</caption>
 </table>
 
 <h2>Appendix G: Glossary of Domain and Technical Terms</h2>
 <p><strong>Available quantity.</strong> Quantity on hand minus quantity reserved.</p>
+<p><strong>Available balance.</strong> Demonstration naira on a wallet that may be spent, withdrawn, or transferred; distinct from owed payout.</p>
 <p><strong>Append-only ledger.</strong> A record of money movements that the application does not update or delete after insertion.</p>
+<p><strong>DemoBank.</strong> Application service that funds, withdraws, and transfers demonstration wallet balances without touching escrowed produce payments.</p>
 <p><strong>Blade.</strong> Laravel’s server-side templating engine used for views.</p>
 <p><strong>Collection deadline.</strong> Timestamp by which a paid order should be collected before refund eligibility.</p>
 <p><strong>Dispute note.</strong> Mandatory text recorded by an administrator when releasing or refunding a disputed order.</p>
@@ -1036,11 +1083,13 @@
 <h2>Appendix H: Defence Script Outline</h2>
 <ol class="plain">
   <li>Open the public market; filter by crop or state; open the maize listing; point out fees and dispute window.</li>
-  <li>Sign in as buyer; place a partial order; pay; show collection code on the buyer order page.</li>
+  <li>Sign in as buyer; open Wallet; top up a small amount; transfer a smaller amount to farmer@agrobridge.test; withdraw a remainder; show the ledger.</li>
+  <li>Sign in as farmer; open Wallet; show the incoming transfer and the raised Available balance.</li>
+  <li>Sign in as buyer again; place a partial order; pay; show collection code on the buyer order page.</li>
   <li>Sign in as farmer on another browser or session; open the same order; show absence of code and absence of self-release control; submit code after reading it from the buyer screen.</li>
-  <li>Sign in as administrator; show desk counts, disputes, and fees page; explain snapshot non-retroactivity.</li>
+  <li>Sign in as administrator; show desk counts, disputes, and fees page; explain snapshot non-retroactivity; confirm that Wallet is absent from the admin menu.</li>
   <li>Optionally run settlement after adjusting timestamps in a prepared demo, or rely on automated test narration for timeout behaviour.</li>
-  <li>Close by restating the institutional rule: the farmer cannot pay himself by asserting delivery.</li>
+  <li>Close by restating the institutional rule: the farmer cannot pay himself by asserting delivery, and demonstration transfers do not release held produce payments.</li>
 </ol>
 
 <h1 class="chapter">Biodata</h1>
@@ -1052,7 +1101,7 @@
 <p class="no-justify"><strong>Institution:</strong> Lead City University, Ibadan, Oyo State, Nigeria</p>
 <p class="no-justify"><strong>Research Interest:</strong> Software engineering for agricultural market systems; escrow and trust mechanisms in web applications; requirements-driven transactional design</p>
 <p class="no-justify"><strong>Project Title:</strong> Design and Development of a Digital Platform for Improving Agricultural Market Access among Smallholder Farmers</p>
-<p class="no-justify"><strong>Software Artefact:</strong> AgroBridge (Laravel web application with MySQL persistence, role-based offices, and hold-and-release escrow)</p>
+<p class="no-justify"><strong>Software Artefact:</strong> AgroBridge (Laravel web application with MySQL persistence, role-based offices, demonstration wallet operations, and hold-and-release escrow)</p>
 <p class="no-justify"><strong>Scholarship to date:</strong> Postgraduate Diploma candidate in Software Engineering; preparation of this thesis and accompanying software artefact as partial fulfilment of programme requirements.</p>
 <div class="sig">
   <p>Signature: <span class="blank"></span></p>
